@@ -1,0 +1,14 @@
+# Dependencias mínimas para servir el modelo en el aplicativo web.
+# (No requiere mediapipe ni el código de entrenamiento.)
+torch>=2.2
+torchvision>=0.17
+timm>=1.0
+opencv-python-headless>=4.8  # Se usa headless en servidores (Render/Linux) para evitar errores de dependencias GUI (libGL)
+numpy>=1.24
+# El modelo de detección de rostro (face_detection_yunet_2023mar.onnx) ya viene
+# incluido en esta carpeta: NO hay que descargar nada.
+
+# Servidor de API y Frontend Integrado:
+fastapi>=0.110
+uvicorn>=0.29
+python-multipart>=0.0.9

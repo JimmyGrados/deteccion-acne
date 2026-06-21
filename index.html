@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facultad de Ingeniería - Ingeniería de Tecnologías de Información y Sistemas</title>
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Carga de la lógica de la interfaz -->
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <!-- CONTENEDOR DE OLAS DE COLORES (FONDO ILUMINADO) -->
+    <div class="waves-bg">
+        <!-- Ola 1: Terracota suave -->
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="url(#wave-grad-1)" d="M0,96L60,122.7C120,149,240,203,360,224C480,245,600,235,720,202.7C840,171,960,117,1080,106.7C1200,96,1320,128,1380,144L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+        </svg>
+        <!-- Ola 2: Verde Salvia suave -->
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="url(#wave-grad-2)" d="M0,192L80,181.3C160,171,320,149,480,160C640,171,800,213,960,224C1120,235,1280,213,1360,202.7L1440,192L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+        </svg>
+        <!-- Ola 3: Arena/Dorado templado -->
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="url(#wave-grad-3)" d="M0,128L120,149.3C240,171,480,213,720,208C960,203,1200,149,1320,122.7L1440,96L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path>
+        </svg>
+        <!-- Gradientes SVG -->
+        <svg style="height:0; width:0; position:absolute;">
+            <defs>
+                <linearGradient id="wave-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fbc4b6" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#fddfd8" stop-opacity="0.8"/>
+                </linearGradient>
+                <linearGradient id="wave-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#b4d7c5" stop-opacity="0.5"/>
+                    <stop offset="100%" stop-color="#d8eae1" stop-opacity="0.8"/>
+                </linearGradient>
+                <linearGradient id="wave-grad-3" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#f6dfb7" stop-opacity="0.4"/>
+                    <stop offset="100%" stop-color="#fbf4e7" stop-opacity="0.7"/>
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+
+    <!-- FIGURA DECORATIVA GEOMÉTRICA FLOTANTE -->
+    <div class="bg-shape-circle"></div>
+
+    <div class="app-wrapper">
+        <header class="main-header">
+            <div class="academic-brand-left">
+                <span class="academic-institution">Universidad ESAN</span>
+                <span class="academic-faculty">Facultad de Ingeniería</span>
+                <span class="academic-program">Ingeniería de Tecnologías de Información y Sistemas</span>
+            </div>
+            <div class="academic-brand-right">
+                <img src="logo_esan.png" alt="Universidad ESAN Logo" class="academic-logo">
+            </div>
+        </header>
+
+        <main class="card-container">
+            <!-- VISTA 1: SUBIR IMAGEN -->
+            <section id="upload-view" class="view active">
+                <div class="intro-block">
+                    <h1 class="title-primary">Detección de Acné Facial</h1>
+                    <p class="subtitle-primary">Cargue una imagen de rostro con iluminación frontal para evaluar y detectar la presencia de lesiones de acné mediante los modelos de Deep Learning.</p>
+                </div>
+                
+                <div class="drop-zone" id="dropzone">
+                    <input type="file" id="file-input" accept="image/*" class="file-input">
+                    <!-- FIGURA CONCÉNTRICA MÓVIL DENTRO DE LA CARGA -->
+                    <div class="drop-zone-decor">
+                        <div class="decor-ring ring-1"></div>
+                        <div class="decor-ring ring-2"></div>
+                    </div>
+                    <div class="drop-zone-message">
+                        <div class="drop-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14M5 12h14"/>
+                            </svg>
+                        </div>
+                        <h3>Seleccione o arrastre la imagen del rostro</h3>
+                        <p class="help-text">Formatos sugeridos: JPG, JPEG, PNG • Máx. 10MB</p>
+                    </div>
+                </div>
+
+                <div class="guidelines-list">
+                    <span class="guidelines-title">Requisitos del Protocolo de Captura</span>
+                    <div class="guidelines-grid">
+                        <div class="guidelines-item">
+                            <span class="item-num">01</span>
+                            <p>Iluminación uniforme, preferentemente frontal y sin sombras proyectadas</p>
+                        </div>
+                        <div class="guidelines-item">
+                            <span class="item-num">02</span>
+                            <p>Rostro completamente centrado, libre de accesorios (lentes, mascarillas) u obstrucciones capilares</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA NUEVA: SELECCIONAR MODELO -->
+            <section id="model-select-view" class="view">
+                <div class="intro-block">
+                    <h2 class="title-secondary">Selección del Modelo de Inferencia</h2>
+                    <p class="subtitle-primary">Seleccione el algoritmo de aprendizaje profundo (Deep Learning) para ejecutar el procesamiento y detección en la imagen facial.</p>
+                </div>
+
+                <div class="model-selection-grid">
+                    <!-- Botón 1: ResNet-50 (Recomendado/Mejor) -->
+                    <button class="model-btn recommended" data-model="resnet50">
+                        <div class="model-recommendation-badge">Recomendado / Mayor Desempeño (F1-Score)</div>
+                        <div class="model-btn-content">
+                            <span class="model-name-text">ResNet-50</span>
+                            <span class="model-desc-text">Arquitectura residual de 50 capas (ResNet-50). Modelo robusto de alta convergencia y óptimo desempeño en validación para la detección de lesiones.</span>
+                        </div>
+                    </button>
+
+                    <!-- Botón 2: Vision Transformer (ViT) -->
+                    <button class="model-btn" data-model="vit">
+                        <div class="model-btn-content">
+                            <span class="model-name-text">Vision Transformer (ViT)</span>
+                            <span class="model-desc-text">Arquitectura Vision Transformer (ViT). Analiza parches de imagen y relaciones espaciales mediante mecanismos de auto-atención adaptativa.</span>
+                        </div>
+                    </button>
+
+                    <!-- Botón 3: EfficientNetV2-S -->
+                    <button class="model-btn" data-model="efficientnetv2s">
+                        <div class="model-btn-content">
+                            <span class="model-name-text">EfficientNetV2-S</span>
+                            <span class="model-desc-text">Arquitectura EfficientNetV2-S. Red convolucional optimizada mediante escalado compuesto para alta eficiencia y precisión balanceada.</span>
+                        </div>
+                    </button>
+
+                    <!-- Botón 4: MobileNetV2 -->
+                    <button class="model-btn" data-model="mobilenetv2">
+                        <div class="model-btn-content">
+                            <span class="model-name-text">MobileNetV2</span>
+                            <span class="model-desc-text">Arquitectura MobileNetV2. Red compacta y ligera, optimizada para baja demanda de memoria y ejecución veloz.</span>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="model-select-actions">
+                    <button class="btn btn-secondary" id="btn-cancel-select">
+                        <span>Atrás</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- VISTA 2: PROCESANDO / ESCANEANDO -->
+            <section id="processing-view" class="view">
+                <div class="intro-block">
+                    <h2 class="title-secondary">Procesando Imagen de Rostro</h2>
+                    <p class="subtitle-primary">Ejecutando el pipeline de preprocesamiento facial y detección del sistema...</p>
+                </div>
+
+                <div class="scan-frame-wrapper">
+                    <!-- MARCO ANALÓGICO CON DETALLES DE FIGURAS EN ESQUINAS -->
+                    <div class="scan-preview-box">
+                        <img id="image-preview" src="" alt="Previsualización de análisis">
+                        <div class="scanner-bar"></div>
+                        <!-- Figuras de esquina de encuadre -->
+                        <div class="scan-corner tl"></div>
+                        <div class="scan-corner tr"></div>
+                        <div class="scan-corner bl"></div>
+                        <div class="scan-corner br"></div>
+                    </div>
+                </div>
+
+                <div class="status-indicator">
+                    <div class="custom-loader-ring"></div>
+                    <div class="status-progress-track">
+                        <div class="status-progress-fill" id="progress-fill"></div>
+                    </div>
+                    <p class="status-text" id="pipeline-status">Iniciando preprocesamiento...</p>
+                </div>
+            </section>
+
+            <!-- VISTA 3: RESULTADOS SIMPLIFICADOS -->
+            <section id="result-view" class="view">
+                <div class="result-layout">
+                    <div class="result-image-wrapper">
+                        <img id="result-image" src="" alt="Imagen analizada">
+                        <div class="result-aesthetic-corner top-left"></div>
+                        <div class="result-aesthetic-corner bottom-right"></div>
+                    </div>
+
+                    <div class="result-content-wrapper">
+                        <div class="result-indicator-box">
+                            <span class="pre-result-label">Resultado de la Detección</span>
+                            <h2 class="result-verdict" id="result-title">Procesando...</h2>
+                            <p class="result-subtext" id="result-desc">El procesamiento de la imagen ha finalizado correctamente.</p>
+                            
+                            <!-- NUEVO: Detalles del modelo aplicado en el veredicto -->
+                            <p class="model-applied-info">Modelo aplicado: <span id="model-used-val" class="model-used-badge">-</span></p>
+                        </div>
+
+                        <div class="result-actions">
+                            <button class="btn btn-secondary" id="btn-reset">
+                                <span>Procesar Nueva Imagen</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+                                    <polyline points="21 3 21 8 16 8"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p>Universidad ESAN • Facultad de Ingeniería • Ingeniería de Tecnologías de Información y Sistemas</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,791 @@
+/* ----------------------------------------------------
+   SISTEMA DE DISEÑO ILUMINADO Y HUMANISTA (LIGHT CLINICAL STYLE)
+   ---------------------------------------------------- */
+:root {
+    /* Paleta Neutra, Alabastro y Arena */
+    --color-bg: #fdfcf9;                 /* Alabastro suave */
+    --color-card: #ffffff;               /* Blanco puro para las tarjetas */
+    --color-border: #e8e2d9;             /* Arena muy claro para bordes finos */
+    --color-border-focus: #c2b8aa;       /* Arena medio */
+    
+    --color-text-main: #2b2e35;          /* Mineral oscuro/casi negro */
+    --color-text-muted: #5c626d;         /* Gris medio para legibilidad */
+    --color-text-dim: #8a919e;           /* Gris claro */
+    
+    /* Acentos Orgánicos Refinados */
+    --color-acne-detected: #d96a4c;      /* Terracota */
+    --color-acne-bg: rgba(217, 106, 76, 0.06);
+    --color-acne-border: rgba(217, 106, 76, 0.25);
+    
+    --color-acne-free: #60937a;          /* Verde Salvia */
+    --color-free-bg: rgba(96, 147, 122, 0.06);
+    --color-free-border: rgba(96, 147, 122, 0.25);
+    
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    position: relative;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ----------------------------------------------------
+   DISEÑO DE OLAS DE COLORES (FONDO ILUMINADO)
+   ---------------------------------------------------- */
+.waves-bg {
+    position: fixed;
+    bottom: -5%;
+    left: 0;
+    width: 100%;
+    height: 480px;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.6;
+}
+
+.waves-bg svg {
+    position: absolute;
+    bottom: 0;
+    left: -20%;
+    width: 140%;
+    height: 100%;
+    animation: waveFloat 20s infinite ease-in-out alternate;
+}
+
+.waves-bg svg:nth-child(1) {
+    animation-duration: 24s;
+    opacity: 0.75;
+}
+
+.waves-bg svg:nth-child(2) {
+    animation-duration: 18s;
+    animation-delay: -4s;
+    opacity: 0.85;
+}
+
+.waves-bg svg:nth-child(3) {
+    animation-duration: 28s;
+    animation-delay: -8s;
+    opacity: 0.6;
+}
+
+@keyframes waveFloat {
+    0% { transform: translateY(15px) rotate(-1deg); }
+    100% { transform: translateY(-15px) rotate(1deg); }
+}
+
+/* ----------------------------------------------------
+   FIGURA GEOMÉTRICA DECORATIVA FLOTANTE
+   ---------------------------------------------------- */
+.bg-shape-circle {
+    position: absolute;
+    top: 8%;
+    right: 12%;
+    width: 140px;
+    height: 140px;
+    border: 1px dashed rgba(217, 106, 76, 0.15);
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+    animation: rotateCircle 60s linear infinite;
+}
+
+@keyframes rotateCircle {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ----------------------------------------------------
+   CONTENEDOR DE LA APLICACIÓN
+   ---------------------------------------------------- */
+.app-wrapper {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    position: relative;
+    z-index: 10; /* Arriba de las olas */
+}
+
+/* ----------------------------------------------------
+   CABECERA MINIMALISTA (ESTILO ACADÉMICO)
+   ---------------------------------------------------- */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 20px;
+}
+
+.academic-brand-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.academic-institution {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-dim);
+}
+
+.academic-faculty {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--color-text-main);
+    margin-top: 2px;
+}
+
+.academic-program {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-top: 1px;
+}
+
+.academic-brand-right {
+    display: flex;
+    align-items: center;
+}
+
+.academic-logo {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* ----------------------------------------------------
+   CARTA CENTRAL (HANDCRAFTED FEEL)
+   ---------------------------------------------------- */
+.card-container {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 48px;
+    box-shadow: 0 10px 30px rgba(181, 170, 150, 0.12), 0 1px 4px rgba(181, 170, 150, 0.06);
+    transition: var(--transition-smooth);
+}
+
+/* Control de flujo de vistas */
+.view {
+    display: none;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.view.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ----------------------------------------------------
+   BLOQUES DE TEXTO
+   ---------------------------------------------------- */
+.intro-block {
+    margin-bottom: 32px;
+}
+
+.title-primary {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+    color: var(--color-text-main);
+}
+
+.title-secondary {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.subtitle-primary {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+/* ----------------------------------------------------
+   VISTA 1: DROP ZONE
+   ---------------------------------------------------- */
+.drop-zone {
+    border: 1px dashed var(--color-border-focus);
+    border-radius: 12px;
+    padding: 60px 20px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    background-color: rgba(253, 252, 249, 0.5);
+    transition: var(--transition-smooth);
+    overflow: hidden;
+}
+
+.drop-zone:hover {
+    border-style: solid;
+    border-color: var(--color-text-main);
+    background-color: #ffffff;
+}
+
+.file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Figuras de fondo animadas del Dropzone */
+.drop-zone-decor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 160px;
+    height: 160px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.decor-ring {
+    position: absolute;
+    border: 1px dashed rgba(43, 46, 53, 0.06);
+    border-radius: 50%;
+    transition: var(--transition-smooth);
+}
+
+.decor-ring.ring-1 {
+    width: 100%;
+    height: 100%;
+    animation: rotateRing 40s linear infinite;
+}
+
+.decor-ring.ring-2 {
+    width: 70%;
+    height: 70%;
+    animation: rotateRing 25s linear infinite reverse;
+}
+
+.drop-zone:hover .decor-ring {
+    border-color: rgba(217, 106, 76, 0.12);
+}
+
+@keyframes rotateRing {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.drop-zone-message {
+    position: relative;
+    z-index: 2; /* Encima de las figuras */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.drop-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-text-muted);
+    transition: var(--transition-smooth);
+}
+
+.drop-zone:hover .drop-icon {
+    color: var(--color-acne-detected);
+    border-color: var(--color-acne-detected);
+    transform: scale(1.05);
+}
+
+.drop-zone-message h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+}
+
+.help-text {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+/* Guías de captura */
+.guidelines-list {
+    margin-top: 40px;
+    border-top: 1px solid var(--color-border);
+    padding-top: 24px;
+}
+
+.guidelines-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-dim);
+    display: block;
+    margin-bottom: 16px;
+}
+
+.guidelines-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.guidelines-item {
+    display: flex;
+    gap: 12px;
+}
+
+.item-num {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--color-text-main);
+    line-height: 1;
+}
+
+.guidelines-item p {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+/* ----------------------------------------------------
+   VISTA 2: PANTALLA DE CARGA (PREPROCESANDO)
+   ---------------------------------------------------- */
+.scan-frame-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 32px 0;
+}
+
+.scan-preview-box {
+    width: 240px;
+    height: 240px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--color-border);
+    background-color: #121316;
+}
+
+#image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+}
+
+/* Figuras de esquinas de cámara/encuadre */
+.scan-corner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    z-index: 5;
+}
+
+.scan-corner.tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.scan-corner.tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+.scan-corner.bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+.scan-corner.br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+.scanner-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+    box-shadow: 0 0 14px 3px rgba(255, 255, 255, 0.85), 0 0 6px 1px rgba(255, 255, 255, 0.4);
+    animation: scanPulse 2.2s infinite ease-in-out;
+}
+
+@keyframes scanPulse {
+    0% { top: 0%; opacity: 0.4; }
+    50% { top: 100%; opacity: 1; }
+    100% { top: 0%; opacity: 0.4; }
+}
+
+.status-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+/* Loader circular minimalista */
+.custom-loader-ring {
+    width: 34px;
+    height: 34px;
+    border: 2.5px solid rgba(43, 46, 53, 0.08);
+    border-top: 2.5px solid var(--color-text-main);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.status-progress-track {
+    width: 220px;
+    height: 4px;
+    background: rgba(43, 46, 53, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.status-progress-fill {
+    width: 0%;
+    height: 100%;
+    background-color: var(--color-text-main);
+    box-shadow: 0 0 6px rgba(43, 46, 53, 0.2);
+    transition: width 0.15s linear;
+}
+
+.status-text {
+    font-size: 0.9rem;
+    color: var(--color-text-main);
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* ----------------------------------------------------
+   VISTA 3: RESULTADOS SIMPLIFICADOS
+   ---------------------------------------------------- */
+.result-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    text-align: left;
+}
+
+/* Caja de imagen con detalles estéticos hechos a mano */
+.result-image-wrapper {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    padding: 6px;
+    background-color: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(181, 170, 150, 0.08);
+}
+
+#result-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Marcas de esquina analógicas */
+.result-aesthetic-corner {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--color-border-focus);
+}
+
+.result-aesthetic-corner.top-left {
+    top: -3px;
+    left: -3px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.result-aesthetic-corner.bottom-right {
+    bottom: -3px;
+    right: -3px;
+    border-left: none;
+    border-top: none;
+}
+
+/* Información del resultado */
+.result-content-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.pre-result-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-dim);
+    display: block;
+    margin-bottom: 12px;
+}
+
+.result-verdict {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Colores para las respuestas */
+.result-indicator-box.detected .result-verdict {
+    color: var(--color-acne-detected);
+}
+
+.result-indicator-box.free .result-verdict {
+    color: var(--color-acne-free);
+}
+
+.result-subtext {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/* ----------------------------------------------------
+   BOTONES E INTERACCIONES
+   ---------------------------------------------------- */
+.btn {
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border-focus);
+    background-color: #ffffff;
+    color: var(--color-text-main);
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-smooth);
+}
+
+.btn-secondary:hover {
+    border-color: var(--color-text-main);
+    background-color: var(--color-bg);
+    transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* ----------------------------------------------------
+   NUEVO: SELECCIÓN DE MODELOS
+   ---------------------------------------------------- */
+.model-selection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.model-btn {
+    background-color: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: var(--transition-smooth);
+    font-family: inherit;
+    width: 100%;
+}
+
+.model-btn:hover {
+    border-color: var(--color-border-focus);
+    box-shadow: 0 4px 16px rgba(181, 170, 150, 0.08);
+    transform: translateY(-2px);
+}
+
+.model-btn:active {
+    transform: translateY(0);
+}
+
+.model-btn.recommended {
+    border-color: var(--color-acne-detected);
+    background-color: var(--color-acne-bg);
+}
+
+.model-btn.recommended:hover {
+    box-shadow: 0 6px 18px rgba(217, 106, 76, 0.12);
+}
+
+.model-recommendation-badge {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    background-color: var(--color-acne-detected);
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 2px;
+}
+
+.model-name-text {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    display: block;
+}
+
+.model-desc-text {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+    display: block;
+}
+
+.model-select-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.model-applied-info {
+    font-size: 0.75rem;
+    color: var(--color-text-dim);
+    font-weight: 500;
+    margin-top: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.model-used-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    background-color: rgba(43, 46, 53, 0.05);
+    border: 1px solid var(--color-border);
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-left: 6px;
+    text-transform: none;
+    letter-spacing: normal;
+    display: inline-block;
+}
+
+.result-indicator-box.detected .model-used-badge {
+    background-color: var(--color-acne-bg);
+    border-color: var(--color-acne-border);
+    color: var(--color-acne-detected);
+}
+
+.result-indicator-box.free .model-used-badge {
+    background-color: var(--color-free-bg);
+    border-color: var(--color-free-border);
+    color: var(--color-acne-free);
+}
+
+@media (max-width: 620px) {
+    .model-selection-grid {
+        grid-template-columns: 1fr;
+    }
+    .model-applied-info {
+        flex-direction: column;
+        gap: 6px;
+    }
+    .model-used-badge {
+        margin-left: 0;
+    }
+}
+
+/* ----------------------------------------------------
+   PIE DE PÁGINA
+   ---------------------------------------------------- */
+.main-footer {
+    text-align: left;
+    font-size: 0.75rem;
+    color: var(--color-text-dim);
+    border-top: 1px solid var(--color-border);
+    padding-top: 16px;
+}
+
+/* ----------------------------------------------------
+   MEDIA QUERIES (RESPONSIVIDAD MÓVIL Y DE ESCRITORIO)
+   ---------------------------------------------------- */
+@media (max-width: 620px) {
+    .result-layout {
+        flex-direction: column;
+        text-align: center;
+        gap: 32px;
+    }
+    
+    .result-content-wrapper {
+        align-items: center;
+    }
+    
+    .btn {
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 580px) {
+    .card-container {
+        padding: 32px 20px;
+    }
+    
+    .title-primary {
+        font-size: 1.8rem;
+    }
+    
+    .guidelines-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
