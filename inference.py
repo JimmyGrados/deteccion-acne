@@ -147,14 +147,14 @@ class AcnePredictor:
     def __init__(self, weights_path, device=None):
         self.weights_path = weights_path
         self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
-        # Cargar solo metadatos ligeros al inicio usando la CPU
-        ckpt = torch.load(weights_path, map_location="cpu")
-        self.model_name = ckpt["model_name"]
-        self.class_names = ckpt["class_names"]
-        self.img_size = ckpt["img_size"]
-        self.mean = ckpt["mean"]
-        self.std = ckpt["std"]
-        self.threshold = float(ckpt.get("threshold", 0.5))
+        # Evitamos llamar a torch.load al arrancar para no consumir memoria RAM (evita error OOM 512MB)
+        filename = os.path.basename(weights_path)
+        self.model_name = filename.replace(".pt", "")
+        self.class_names = ['no_acne', 'acne']
+        self.img_size = 224
+        self.mean = [0.485, 0.456, 0.406]
+        self.std = [0.229, 0.224, 0.225]
+        self.threshold = 0.5
 
     @torch.no_grad()
     def prob_from_tensor(self, x):
