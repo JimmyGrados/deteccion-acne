@@ -15,7 +15,7 @@ Probar:
 """
 import cv2
 import numpy as np
-from fastapi import FastAPI, File, UploadFile, Query
+from fastapi import FastAPI, File, UploadFile, Query, Response
 from fastapi.responses import FileResponse
 
 from inference import MultiAcnePredictor
@@ -63,6 +63,11 @@ def read_js():
 @app.get("/logo_esan.png")
 def read_logo():
     return FileResponse("logo_esan.png")
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    return Response(status_code=204)
 
 
 if __name__ == "__main__":
