@@ -159,17 +159,20 @@ class AcnePredictor:
     @torch.no_grad()
     def prob_from_tensor(self, x):
         import gc
-        # Cargar pesos del modelo pesados en memoria únicamente durante la inferencia
-        ckpt = torch.load(self.weights_path, map_location=self.device)
+        # Cargar pesos usando mmap=True para evitar duplicación de memoria en RAM
+        ckpt = torch.load(self.weights_path, map_location=self.device, mmap=True)
         model = build_model(self.model_name).to(self.device)
         model.load_state_dict(ckpt["state_dict"])
         model.eval()
+        
+        # Liberar la memoria del checkpoint inmediatamente antes de correr la inferencia
+        del ckpt
+        gc.collect()
         
         prob = torch.sigmoid(model(x.to(self.device))).item()
         
         # Eliminar el modelo e invocar al recolector de basura de Python para liberar RAM al instante
         del model
-        del ckpt
         if "cuda" in str(self.device):
             torch.cuda.empty_cache()
         gc.collect()
