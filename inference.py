@@ -145,17 +145,36 @@ def _read_rgb(image):
 # ----------------------------------------------------------------------------
 class AcnePredictor:
     def __init__(self, weights_path, device=None):
+        self.weights_path = weights_path
         self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
-        ckpt = torch.load(weights_path, map_location=self.device)
-        self.model_name = ckpt["model_name"]; self.class_names = ckpt["class_names"]
-        self.img_size = ckpt["img_size"]; self.mean = ckpt["mean"]; self.std = ckpt["std"]
+        # Cargar solo metadatos ligeros al inicio usando la CPU
+        ckpt = torch.load(weights_path, map_location="cpu")
+        self.model_name = ckpt["model_name"]
+        self.class_names = ckpt["class_names"]
+        self.img_size = ckpt["img_size"]
+        self.mean = ckpt["mean"]
+        self.std = ckpt["std"]
         self.threshold = float(ckpt.get("threshold", 0.5))
-        self.model = build_model(self.model_name).to(self.device)
-        self.model.load_state_dict(ckpt["state_dict"]); self.model.eval()
 
     @torch.no_grad()
     def prob_from_tensor(self, x):
-        return torch.sigmoid(self.model(x.to(self.device))).item()
+        import gc
+        # Cargar pesos del modelo pesados en memoria únicamente durante la inferencia
+        ckpt = torch.load(self.weights_path, map_location=self.device)
+        model = build_model(self.model_name).to(self.device)
+        model.load_state_dict(ckpt["state_dict"])
+        model.eval()
+        
+        prob = torch.sigmoid(model(x.to(self.device))).item()
+        
+        # Eliminar el modelo e invocar al recolector de basura de Python para liberar RAM al instante
+        del model
+        del ckpt
+        if "cuda" in str(self.device):
+            torch.cuda.empty_cache()
+        gc.collect()
+        
+        return prob
 
     def predict(self, image, do_face_crop=True):
         img = _read_rgb(image); face = None; method = "ninguno"
