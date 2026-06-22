@@ -145,39 +145,17 @@ def _read_rgb(image):
 # ----------------------------------------------------------------------------
 class AcnePredictor:
     def __init__(self, weights_path, device=None):
-        self.weights_path = weights_path
         self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
-        # Evitamos llamar a torch.load al arrancar para no consumir memoria RAM (evita error OOM 512MB)
-        filename = os.path.basename(weights_path)
-        self.model_name = filename.replace(".pt", "")
-        self.class_names = ['no_acne', 'acne']
-        self.img_size = 224
-        self.mean = [0.485, 0.456, 0.406]
-        self.std = [0.229, 0.224, 0.225]
-        self.threshold = 0.5
+        ckpt = torch.load(weights_path, map_location=self.device)
+        self.model_name = ckpt["model_name"]; self.class_names = ckpt["class_names"]
+        self.img_size = ckpt["img_size"]; self.mean = ckpt["mean"]; self.std = ckpt["std"]
+        self.threshold = float(ckpt.get("threshold", 0.5))
+        self.model = build_model(self.model_name).to(self.device)
+        self.model.load_state_dict(ckpt["state_dict"]); self.model.eval()
 
     @torch.no_grad()
     def prob_from_tensor(self, x):
-        import gc
-        # Cargar pesos usando mmap=True para evitar duplicación de memoria en RAM
-        ckpt = torch.load(self.weights_path, map_location=self.device, mmap=True)
-        model = build_model(self.model_name).to(self.device)
-        model.load_state_dict(ckpt["state_dict"])
-        model.eval()
-        
-        # Liberar la memoria del checkpoint inmediatamente antes de correr la inferencia
-        del ckpt
-        gc.collect()
-        
-        prob = torch.sigmoid(model(x.to(self.device))).item()
-        
-        # Eliminar el modelo e invocar al recolector de basura de Python para liberar RAM al instante
-        del model
-        if "cuda" in str(self.device):
-            torch.cuda.empty_cache()
-        gc.collect()
-        
-        return prob
+        return torch.sigmoid(self.model(x.to(self.device))).item()
 
     def predict(self, image, do_face_crop=True):
         img = _read_rgb(image); face = None; method = "ninguno"
