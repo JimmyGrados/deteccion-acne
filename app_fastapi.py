@@ -26,7 +26,19 @@ predictor = MultiAcnePredictor("modelos")   # carga los 4 una sola vez al arranc
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "modelos": predictor.modelos()}
+    import os
+    # Importar los detectores del módulo de inferencia para diagnóstico
+    import inference
+    yunet_ok = inference._YUNET is not None
+    cascade_f_ok = hasattr(inference, '_CASCADE_F') and inference._CASCADE_F is not None and not inference._CASCADE_F.empty()
+    
+    return {
+        "status": "ok",
+        "modelos": predictor.modelos(),
+        "yunet_loaded": yunet_ok,
+        "cascade_f_loaded": cascade_f_ok,
+        "yunet_file_exists": os.path.exists(inference._YUNET_PATH)
+    }
 
 
 @app.post("/predict")
